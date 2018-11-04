@@ -1,0 +1,123 @@
+void combat(Entity pEnt, Entity eEnt, ArrayList<Entity> currents)
+{
+  loopSong("combat");
+  stroke(0);
+  strokeWeight(1);
+  combatDisplay(pEnt,eEnt);
+  combatText();
+  combatControl(pEnt,eEnt);
+  statTest(pEnt,eEnt,currents);
+}
+void combatDisplay(Entity pEnt, Entity eEnt)//front,left,back,right
+{
+  textSize(40);
+  background(0);
+  image(bg,width/2,bg.height/2);
+  fill(100,50,200);
+  strokeWeight(5);
+  ellipse(width/2,3*bg.height/8,bg.width/3,bg.height/5);
+  fill(150,100,255);
+  ellipse(width/2,7*bg.height/8,bg.width/3,bg.height/5);
+  image(eEnt.entPic(0),width/2,9*bg.height/32,256,256);
+  image(pEnt.entPic(2),width/2,6*bg.height/8,256,256);
+  fill(75);
+  rect((width/2)+bg.width/3,1*bg.height/8,bg.width/4,bg.height/9);
+  rect((width/2)-bg.width/3,6*bg.height/8,bg.width/4,bg.height/9);
+  fill(255);
+  text(eEnt.myName(),(width/2)+bg.width/3,1*bg.height/8,bg.width/4,bg.height/9);
+  text(pEnt.myName(),(width/2)-bg.width/3,6*bg.height/8,bg.width/4,bg.height/9);
+  fill(0,255,0);
+  rect((width/2)-bg.width/3,2*bg.height/16,map(eEnt.getHp(),0,100,0,bg.width/4),bg.height/18);
+  rect((width/2)+bg.width/3,12*bg.height/16,map(pEnt.getHp(),0,100,0,bg.width/4),bg.height/18);
+  fill(0,150,250);
+  rect((width/2)-bg.width/3,3*bg.height/16,map(eEnt.getAp(),0,100,0,bg.width/4),bg.height/18);
+  rect((width/2)+bg.width/3,13*bg.height/16,map(pEnt.getAp(),0,100,0,bg.width/4),bg.height/18);
+  fill(0,155,0);
+  text("Health",(width/2)-bg.width/3,2*bg.height/16,map(eEnt.getHp(),0,100,0,bg.width/4),bg.height/18);
+  text("Health",(width/2)+bg.width/3,12*bg.height/16,map(pEnt.getHp(),0,100,0,bg.width/4),bg.height/18);
+  fill(0,75,125);
+  text("Spirit",(width/2)-bg.width/3,3*bg.height/16,map(eEnt.getAp(),0,100,0,bg.width/4),bg.height/18);
+  text("Spirit",(width/2)+bg.width/3,13*bg.height/16,map(pEnt.getAp(),0,100,0,bg.width/4),bg.height/18);
+  strokeWeight(1);
+}
+void combatText()
+{
+  textSize(55);
+  strokeWeight(5);
+  fill(255);
+  rect(width/2,19*bg.height/20,width,bg.height/10);
+  strokeWeight(1);
+  fill(0);
+  text("Ishmael used Slash",width/2,19*bg.height/20);
+}
+void combatControl(Entity pEnt, Entity eEnt)//for display purposes - Action works fine. Just remember that things below are placeholders
+{
+  fill(150,0,0);
+  strokeWeight(4);
+  rect(width/2,(bg.height+height)/2,width,height-bg.height);
+  line(0,bg.height,width,height);
+  line(0,height,width,bg.height);
+  fill(200,200,0);
+  textSize(55);
+  image(pEnt.getAction(0).getIcon(),width/2,bg.height+7*(height-bg.height)/32);
+  text(pEnt.getAction(0).aName(),width/2,bg.height+(height-bg.height)/16);
+  image(pEnt.getAction(1).getIcon(),width/2,bg.height+29*(height-bg.height)/32);
+  text(pEnt.getAction(1).aName(),width/2,bg.height+3*(height-bg.height)/4);
+  image(pEnt.getAction(2).getIcon(),13*width/16,bg.height+19*(height-bg.height)/32);
+  text(pEnt.getAction(2).aName(),13*width/16,bg.height+7*(height-bg.height)/16);
+  image(pEnt.getAction(3).getIcon(),3*width/16,bg.height+19*(height-bg.height)/32);
+  text(pEnt.getAction(3).aName(),3*width/16,bg.height+7*(height-bg.height)/16);
+  fill(0,0,0,150);
+  for(int i=0; i<touches.length; i++)
+  {
+    if(touches[i].x<width&&touches[i].x>0&&touches[i].y<height&&touches[i].y>bg.height)
+    {
+      if(map(touches[i].y,bg.height,height,0,1)>map(touches[i].x,0,width,0,1))
+      {
+        if(map(touches[i].y,bg.height,height,0,1)>map(touches[i].x,0,width,1,0))
+        {
+          triangle(width/2,(bg.height+height)/2,0,height,width,height);//bottom
+          useAction(2,pEnt,eEnt);
+        }
+        else
+        {
+          triangle(width/2,(bg.height+height)/2,0,bg.height,0,height);//left
+        }
+      }
+      else
+      {
+        if(map(touches[i].y,bg.height,height,0,1)<map(touches[i].x,0,width,1,0))
+        {
+           triangle(width/2,(bg.height+height)/2,0,bg.height,width,bg.height);//top
+           useAction(1,eEnt,pEnt);
+        }
+        else
+        {
+          triangle(width/2,(bg.height+height)/2,width,bg.height,width,height);//right
+        }
+      }
+    }
+  }
+  image(icons.get(8),width/2,(bg.height+height)/2);
+}
+void useAction(int id, Entity user, Entity recipient)
+{
+  Action active=user.getAction(id);
+  recipient.setHp(recipient.getHp()-active.getDmg());
+}
+void statTest(Entity pEnt, Entity eEnt, ArrayList<Entity> currents)
+{
+   if(pEnt.getHp()<=0)
+     sceneDraw="dead";
+   else if(eEnt.getHp()<=0)
+   {
+     for(int i=currents.size()-1; i>=0; i--)
+     {
+       if(currents.get(i)==eEnt)
+         currents.get(i).killed();
+     }
+     sceneDraw="free";
+     bg=loadImage(macroAddress);
+     saveStuff();
+   }
+}
