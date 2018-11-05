@@ -1,0 +1,37 @@
+id,name,element,elementId,dmg,ldmg,iamg,lamg,ihp,lhp,iap,lap,lt,dm,am,s
+0,Slash,Blade,0,1,0,0,0,0,0,0,0,0,0,0,0
+1,Super Slash,Blade,0,1,0,0,0,0,0,0,0,0,0,0,0
+2,Delayed Slash,Blade,0,1,0,0,0,0,0,0,0,0,0,0,0
+3,Strike,Blade,0,1,0,0,0,0,0,0,0,0,0,0,0
+4,Double Strike,Blade,0,1,0,0,0,0,0,0,0,0,0,0,0
+5,Triple Strike,Blade,0,1,0,0,0,0,0,0,0,0,0,0,0
+6,Charged Strike,Blade,0,1,0,0,0,0,0,0,0,0,0,0,0
+7,Deep Wound,Blade,0,1,0,0,0,0,0,0,0,0,0,0,0
+8,Cut,Blade,0,1,0,0,0,0,0,0,0,0,0,0,0
+9,SMG Burst,Gun,1,1,0,0,0,0,0,0,0,0,0,0,0
+10,SMG Burst 2,Gun,1,1,0,0,0,0,0,0,0,0,0,0,0
+11,Silver Bullet,Gun,1,1,0,0,0,0,0,0,0,0,0,0,0
+12,Bullet Storm,Gun,1,1,0,0,0,0,0,0,0,0,0,0,0
+13,Block,Shield,2,1,0,0,0,0,0,0,0,0,0,0,0
+14,Block 2,Shield,2,1,0,0,0,0,0,0,0,0,0,0,0
+15,Block 3,Shield,2,1,0,0,0,0,0,0,0,0,0,0,0
+16,Bash,Shield,2,1,0,0,0,0,0,0,0,0,0,0,0
+17,Manipulate,Mind,3,1,0,0,0,0,0,0,0,0,0,0,0
+18,Control,Mind,3,1,0,0,0,0,0,0,0,0,0,0,0
+19,Confuse,Mind,3,1,0,0,0,0,0,0,0,0,0,0,0
+20,Impair,Mind,3,1,0,0,0,0,0,0,0,0,0,0,0
+21,Deceive,Mind,3,1,0,0,0,0,0,0,0,0,0,0,0
+22,Burn,Fire,4,1,0,0,0,0,0,0,0,0,0,0,0
+23,Fireball,Fire,4,1,0,0,0,0,0,0,0,0,0,0,0
+24,Blaze,Fire,4,1,0,0,0,0,0,0,0,0,0,0,0
+25,Inferno,Fire,4,1,0,0,0,0,0,0,0,0,0,0,0
+26,Hellfire,Fire,4,1,0,0,0,0,0,0,0,0,0,0,0
+27,Fear,Dark,5,1,0,0,0,0,0,0,0,0,0,0,0
+28,Obscure,Dark,5,1,0,0,0,0,0,0,0,0,0,0,0
+29,Soul Harvest,Dark,5,1,0,0,0,0,0,0,0,0,0,0,0
+30,Consume Spirit,Dark,5,1,0,0,0,0,0,0,0,0,0,0,0
+31,Heal,Divine,6,1,0,0,0,0,0,0,0,0,0,0,0
+32,Smite,Divine,6,1,0,0,0,0,0,0,0,0,0,0,0
+33,Wisdom,Divine,6,1,0,0,0,0,0,0,0,0,0,0,0
+34,Light Beam,Divine,6,1,0,0,0,0,0,0,0,0,0,0,0
+35,Banish,Divine,6,1,0,0,0,0,0,0,0,0,0,0,0

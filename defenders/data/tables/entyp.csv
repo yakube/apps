@@ -1,0 +1,9 @@
+id,name,allegiance,allId,mhp,map,pa,pa2,pa3,pa4
+0,Civil Player,plyr,0,100,100,0,1,2,3
+1,Rob Player,plyr,0,100,100,0,1,2,3
+2,Crusader Player,plyr,0,100,100,0,1,2,3
+3,Crusader Swat,plyr,0,100,100,0,1,2,3
+4,Demon,dmn,1,100,100,0,1,2,3
+5,Demon Soldier,dmn,1,100,100,0,1,2,3
+6,Demon Corporal,dmn,1,100,100,0,1,2,3
+7,Demon Commander,dmn,1,100,100,0,1,2,3
