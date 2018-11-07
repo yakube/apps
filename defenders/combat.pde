@@ -116,8 +116,8 @@ void statTest(Entity pEnt, Entity eEnt, ArrayList<Entity> currents)
        if(currents.get(i)==eEnt)
          currents.get(i).killed();
      }
+     saveStuff();
      sceneDraw="free";
      bg=loadImage(macroAddress);
-     saveStuff();
    }
 }

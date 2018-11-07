@@ -2,8 +2,8 @@ import processing.sound.*;
 import android.os.Environment;
 
 PImage bg,sg;
-int mx,my,wid,stroindex;
-String macroAddress,macroAddress2,basePath;
+int mx,my,wid,stroindex,selctedRow,dpment;
+String macroAddress,macroAddress2,basePath,timeTemp;
 ArrayList<Obstruct> obs;
 ArrayList<ColorMap> cMaps;
 ArrayList<Action> actions;
@@ -101,6 +101,8 @@ void draw()
     dead();
   else if(sceneDraw=="stroy")
     stroyDraw();
+  else if(sceneDraw=="load")
+    loadDraw();
 }
 void newGameSetup()//initialization in the case of new game
 {
@@ -153,13 +155,41 @@ void sharedSetup()
   fluse.addColumn("x");
   fluse.addColumn("y");
   fluse.addColumn("isDead");
+  fluse.addColumn("saveDied");
 }
 void saveStuff()
 {
-  fluvs.getRow(0).setInt("id",fluvs.getRow(0).getInt("id")+1);
+  if(minute()>9)//sets current time
+  {
+    if(hour()==0)
+      timeTemp="12:"+minute()+" AM";
+    else if(hour()>12)
+      timeTemp=(hour()-12)+":"+minute()+" PM";
+    else
+      timeTemp=hour()+":"+minute()+" AM";
+  }
+  else
+  {
+    if(hour()==0)
+      timeTemp="12:0"+minute()+" AM";
+    else if(hour()>12)
+      timeTemp=(hour()-12)+":0"+minute()+" PM";
+    else
+      timeTemp=hour()+":0"+minute()+" AM";
+  }//until here
+  if(!timeTemp.equals(fluvs.getString(0,"time")))//only adds new save slot at different time
+  {
+    if(fluvs.getRowCount()>0&&fluvs.getRowCount()<200)
+      fluvs.addRow();
+    for(int i=fluvs.getRowCount()-1; i>0; i--)
+    {
+      fluvs.setRow(i,fluvs.getRow(i-1));
+    }
+    fluvs.getRow(0).setInt("id",(fluvs.getRow(0).getInt("id")+1));
+  }
   println("Save number "+fluvs.getRow(0).getInt("id"));
-  fluvs.getRow(0).setString("date",year()+"");
-  fluvs.getRow(0).setString("time",hour()+"");
+  fluvs.getRow(0).setString("date",month()+"/"+day()+"/"+(year()-2000));
+  fluvs.getRow(0).setString("time",timeTemp);
   fluvs.setInt(0,"mx",mx);
   fluvs.setInt(0,"my",my);
   fluvs.setInt(0,"stroindex",stroindex);
@@ -182,7 +212,10 @@ void saveStuff()
       for(TableRow fluseRow:fluse.rows())
       {
         if(fluseRow.getInt("id")==cur.getId())
+        {
           fluseRow.setInt("isDead",1);
+          fluseRow.setInt("saveDied",fluvs.getInt(0,"id")-1);
+        }
       }
     }
   }
@@ -220,8 +253,11 @@ void initialization()
   my=fluvs.getInt(0,"my");
   for(TableRow row:fluse.rows())
   {
-    if(row.getInt("mx")==mx&&row.getInt("my")==my&&row.getInt("wid")==wid&&row.getInt("isDead")==0)
+    if(row.getInt("mx")==mx&&row.getInt("my")==my&&row.getInt("wid")==wid&&(row.getInt("saveDied")>=fluvs.getInt(0,"id")||row.getInt("isDead")==0))
+    {
+      row.setInt("isDead",0);
       currentEnts.add(new Entity(row.getInt("id"),row.getInt("eid"),-448+(width/2)+128*row.getInt("x"),64+128*row.getInt("y")));
+    }
   }
   macroAddress="backgrounds/w"+wid+"/x"+mx+"y"+my+".jpg";
   macroAddress2="spawngrounds/w"+wid+"/x"+mx+"y"+my+".png";
@@ -247,4 +283,62 @@ void mousePressed()
 {
   if(sceneDraw=="stroy")
     stroisePressed();
+}
+void loadSave(int slot)
+{
+  obs.clear();
+  for (int i=currentEnts.size()-1; i>=0; i--)
+  {
+    if (!currentEnts.get(i).isPlayer())
+      currentEnts.remove(i);
+  }
+  sharedSetup();
+  fluvs=loadTable("fluidVars.csv","header");
+  fluse=loadTable("fluidSpawn.csv","header");
+  mx=fluvs.getRow(slot).getInt("mx");
+  my=fluvs.getRow(slot).getInt("my");
+  wid=fluvs.getRow(slot).getInt("wid");
+  stroindex=fluvs.getInt(slot,"stroindex");
+  for(Entity cur:currentEnts)
+  {
+    if(cur.isPlayer())
+    {
+      cur.setX(fluvs.getRow(slot).getInt("x"));
+      cur.setY(fluvs.getRow(slot).getInt("y"));
+      cur.setMoves(fluvs.getRow(slot).getInt("a1id"),fluvs.getRow(slot).getInt("a2id"),fluvs.getRow(slot).getInt("a3id"),fluvs.getRow(slot).getInt("a4id"));
+      if(fluvs.getRow(slot).getInt("hp")>=0)
+        cur.setHp(fluvs.getRow(slot).getInt("hp"));
+      if(fluvs.getRow(slot).getInt("ap")>=0)
+        cur.setAp(fluvs.getRow(slot).getInt("ap"));
+    }
+  }
+  wid=fluvs.getInt(slot,"wid");
+  mx=fluvs.getInt(slot,"mx");
+  my=fluvs.getInt(slot,"my");
+  for(TableRow row:fluse.rows())
+  {
+    if(row.getInt("mx")==mx&&row.getInt("my")==my&&row.getInt("wid")==wid&&row.getInt("saveDied")>=fluvs.getInt(slot,"id"))
+    {
+      row.setInt("isDead",0);
+      currentEnts.add(new Entity(row.getInt("id"),row.getInt("eid"),-448+(width/2)+128*row.getInt("x"),64+128*row.getInt("y")));
+    }
+  }
+  macroAddress="backgrounds/w"+wid+"/x"+mx+"y"+my+".jpg";
+  macroAddress2="spawngrounds/w"+wid+"/x"+mx+"y"+my+".png";
+  bg=loadImage(macroAddress);
+  sg=loadImage(macroAddress2);
+  sg.loadPixels();
+  for(int i=0; i<sg.height; i++)//handles mapping spawn colors to pngs
+  {
+    for(int j=0; j<sg.width; j++)
+    {
+      for(ColorMap cm:cMaps)
+      {
+        if(sg.pixels[(i*sg.height)+j]==cm.getColor())
+        {
+          obs.add(new Obstruct(-448+(width/2)+128*j,64+128*i,cm.getId(),cm.doesBlock(),cm.getHarm()));
+        }
+      }
+    }
+  }
 }

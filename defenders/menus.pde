@@ -38,7 +38,11 @@ void startMenu()
             continueSetup();
             sceneDraw="free";
           }
-          else if(i==2)
+          else if(i==1)//load button
+          {
+            goToLoad();
+          }
+          else if(i==2)//options
           {
             dataFile("fluidVars.csv").delete();
             dataFile("fluidSpawn.csv").delete();
@@ -90,9 +94,90 @@ void dead()
           continueSetup();
           sceneDraw="free";
         }
+        if(i==1)
+        {
+          goToLoad();
+        }
         if(i==2)
           exit();
       }
     }
   }
+}
+void goToLoad()
+{
+  continueSetup();
+  selctedRow=-1;
+  dpment=0;
+  sceneDraw="load";
+}
+void loadDraw()
+{
+  background(0);
+  stroke(0);
+  strokeWeight(1);
+  fill(255);
+  textSize(75);
+  for(int i=dpment; i<min(fluvs.getRowCount()+dpment,10+dpment); i++)
+  {
+    text((fluvs.getInt(i,"id")+1)+"\t\t\t\t"+fluvs.getString(i,"date")+"\t\t\t\t"+fluvs.getString(i,"time"),width/2,350+i*125-dpment*125);
+  }
+  for(int i=0; i<touches.length; i++)
+  {
+    for(int j=0; j<min(fluvs.getRowCount(),10); j++)
+    {
+      if(touches[i].y>350+125*j-62&&touches[i].y<350+125*j+62)
+        selctedRow=j;
+    }
+  }
+  strokeWeight(4);
+  stroke(255);
+  if(selctedRow>=0)
+  {
+    fill(0,100,255,100);
+    rect(width/2,350+selctedRow*125,9*width/10,120);
+    fill(0,0,0,255);
+    for(int i=0; i<touches.length; i++)
+    {
+      if(touches[i].y>1656.6-60&&touches[i].y<1656.6+60&&touches[i].x>2*width/6&&touches[i].x<4*width/6)//load activated
+      {
+        fill(175);
+        loadSave(dpment+selctedRow);
+        sceneDraw="free";
+      }
+    }
+    rect(width/2,1656.5,width/3,120);
+    fill(255);
+    text("Load",width/2,1656.5);
+  }
+  fill(0,0,0,255);
+  rect(width/2,137,9*width/10,246.6);
+  fill(255);
+  text("Save Slots",width/2,137);
+  fill(0,0,0,255);
+  for(int i=0; i<touches.length; i++)
+  {
+    if(touches[i].y>1656.6-60&&touches[i].y<1656.6+60&&touches[i].x>(5*width/6)-width/8&&touches[i].x<(5*width/6)+width/8)//down acxtivated
+    {
+      fill(175);
+      if(frameCount%5==0&&dpment<fluvs.getRowCount()-10)
+        dpment++;
+    }
+  }
+  rect(5*width/6,1656.5,width/4,120);
+  fill(255);
+  text("\\/",5*width/6,1656.5);
+  fill(0,0,0,255);
+  for(int i=0; i<touches.length; i++)
+  {
+    if(touches[i].y>1656.6-60&&touches[i].y<1656.6+60&&touches[i].x>(width/6)-width/8&&touches[i].x<(width/6)+width/8)//up acxtivated
+    {
+      fill(175);
+      if(frameCount%5==0&&dpment>0)
+        dpment--;
+    }
+  }
+  rect(width/6,1656.5,width/4,120);
+  fill(255);
+  text("/\\",width/6,1656.5);
 }
