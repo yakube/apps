@@ -4,7 +4,7 @@ void startMenu()
   stroke(0);
   strokeWeight(1);
   background(0);
-  image(icons.get(7),width/2,height/6);
+  image(icons.get(16),width/2,height/6);
   textSize(50);
   stroke(255,0,0);
   strokeWeight(8);
@@ -68,7 +68,7 @@ void dead()
   stroke(0);
   strokeWeight(1);
   background(21);
-  image(icons.get(9),width/2,height/6);
+  image(icons.get(17),width/2,height/6);
   textSize(65);
   stroke(255);
   strokeWeight(8);
@@ -109,10 +109,15 @@ void goToLoad()
   continueSetup();
   selctedRow=-1;
   dpment=0;
+  sceneReturn=sceneDraw;
   sceneDraw="load";
 }
 void loadDraw()
 {
+  if(sceneReturn=="pause")
+    loopSong("free");
+  else
+    loopSong("menu");
   background(0);
   stroke(0);
   strokeWeight(1);
@@ -180,4 +185,60 @@ void loadDraw()
   rect(width/6,1656.5,width/4,120);
   fill(255);
   text("/\\",width/6,1656.5);
+  fill(0);
+  for(int i=0; i<touches.length; i++)
+  {
+    if(touches[i].y>10&&touches[i].y<10+width/6&&touches[i].x>10&&touches[i].x<10+width/6)//back button
+    {
+      fill(175);
+      sceneDraw=sceneReturn;
+    }
+  }
+  rect(10+width/12,10+width/12,width/6,width/6);
+  fill(255);
+  text("<-",10+width/12,10+width/12);
+}
+void pauseDraw()
+{
+  loopSong("free");
+  stroke(0);
+  strokeWeight(1);
+  background(0,0,100);
+  textSize(100);
+  fill(255);
+  text("Pause Menu",width/2,height/6);
+  textSize(65);
+  stroke(255);
+  strokeWeight(8);
+  for(int i=0; i<4; i++)
+  {
+    fill(0,0,100);
+    rect(width/2,(8+4*i)*height/24,2*width/3,height/10);
+  }
+  fill(255);
+  text("Resume",width/2,8*height/24);
+  text("Load Game",width/2,12*height/24);
+  text("Options",width/2,16*height/24);
+  text("Quit to Main Menu",width/2,20*height/24);
+  for(int i=0; i<4; i++)
+  {
+    for(int j=0; j<touches.length; j++)
+    {
+      if(touches[j].x>(width/2)-width/3&&touches[j].x<(width/2)+width/3&&touches[j].y<((8+4*i)*height/24)+height/20&&touches[j].y>((8+4*i)*height/24)-height/20)
+      {
+        fill(0,0,0,150);
+        rect(width/2,(8+4*i)*height/24,2*width/3,height/10);
+        if(i==0)
+        {
+          sceneDraw="free";
+        }
+        if(i==1)
+        {
+          goToLoad();
+        }
+        if(i==3)
+          sceneDraw="start";
+      }
+    }
+  }
 }

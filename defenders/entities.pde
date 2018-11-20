@@ -29,7 +29,7 @@ class Entity
   void frDisplay()
   {
     if (!this.dead&&this.eid>=0)
-      image(this.et.getFace(lastD), this.x, this.y);
+      image(this.et.getFace(lastD), this.x, this.y, 128, 128);
   }
   float getAp()
   {
@@ -104,6 +104,25 @@ class Entity
             this.y=obs.get(i).getY()+128;
           else if (this.db)
             this.y=obs.get(i).getY()-128;
+        }
+        else//in progress
+        {
+          if (this.ub&&this.rb)
+          {
+            this.y++;
+          }
+          else if (this.db&&this.lb)
+          {
+            this.y--;
+          }
+          else if (this.ub&&this.lb)
+          {
+            this.y++;
+          }
+          else if (this.db&&this.rb)
+          {
+            this.y--;
+          }
         }
       }
     }

@@ -59,13 +59,13 @@ void combatControl(Entity pEnt, Entity eEnt)//for display purposes - Action work
   line(0,height,width,bg.height);
   fill(200,200,0);
   textSize(55);
-  image(pEnt.getAction(0).getIcon(),width/2,bg.height+7*(height-bg.height)/32);
+  image(pEnt.getAction(0).getIcon(),width/2,bg.height+7*(height-bg.height)/32,96,96);
   text(pEnt.getAction(0).aName(),width/2,bg.height+(height-bg.height)/16);
-  image(pEnt.getAction(1).getIcon(),width/2,bg.height+29*(height-bg.height)/32);
+  image(pEnt.getAction(1).getIcon(),width/2,bg.height+29*(height-bg.height)/32,96,96);
   text(pEnt.getAction(1).aName(),width/2,bg.height+3*(height-bg.height)/4);
-  image(pEnt.getAction(2).getIcon(),13*width/16,bg.height+19*(height-bg.height)/32);
+  image(pEnt.getAction(2).getIcon(),13*width/16,bg.height+19*(height-bg.height)/32,96,96);
   text(pEnt.getAction(2).aName(),13*width/16,bg.height+7*(height-bg.height)/16);
-  image(pEnt.getAction(3).getIcon(),3*width/16,bg.height+19*(height-bg.height)/32);
+  image(pEnt.getAction(3).getIcon(),3*width/16,bg.height+19*(height-bg.height)/32,96,96);
   text(pEnt.getAction(3).aName(),3*width/16,bg.height+7*(height-bg.height)/16);
   fill(0,0,0,150);
   for(int i=0; i<touches.length; i++)
@@ -98,7 +98,7 @@ void combatControl(Entity pEnt, Entity eEnt)//for display purposes - Action work
       }
     }
   }
-  image(icons.get(8),width/2,(bg.height+height)/2);
+  image(icons.get(15),width/2,(bg.height+height)/2);
 }
 void useAction(int id, Entity user, Entity recipient)
 {

@@ -237,6 +237,23 @@ void controlPad(ArrayList<Entity> currents)
         }
       }
     }
+    else if(dist(touches[i].x,touches[i].y,width/2,0)<250)
+    {
+      sceneDraw="pause";//go to pause screen
+    }
+    else
+    {
+      fadeFrames=150;
+    }
+  }
+  if(fadeFrames>0)
+  {
+     fill(200,0,0,fadeFrames);
+     ellipse(width/2,0,500,500);
+     fill(255,255,255,fadeFrames);
+     textSize(75);
+     text("Pause",width/2,100);
+     fadeFrames-=2;
   }
   fill(0);
   rect(width/2, (bg.height+height)/2, 2*width/5, width/24);
@@ -263,7 +280,7 @@ void collide(ArrayList<Entity> currents)
             eComba=cur2;
             if(cur2.getEid()<0)
             {
-              numStroys=abs(cur2.getEid());
+              stroyLim=abs(cur2.getEid());
               sceneDraw="stroy";
               bg=loadImage("stroys/"+stroindex+".png");
             }

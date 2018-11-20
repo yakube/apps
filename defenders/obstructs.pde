@@ -15,7 +15,7 @@ class Obstruct
   }
   void display()
   {
-    image(this.picture,this.x,this.y);
+    image(this.picture,this.x,this.y,128,128);
   }
   float getX()
   {

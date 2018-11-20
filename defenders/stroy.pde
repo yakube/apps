@@ -26,7 +26,7 @@ void stroyPad()
   fill(0);
   if(stroindex>0)
     text("Previous",width/4, (bg.height+height)/2);
-  if(stroindex<numStroys)
+  if(stroindex<stroyLim)
     text("Next",3*width/4, (bg.height+height)/2);
   else
     text("Finish",3*width/4, (bg.height+height)/2);
@@ -40,7 +40,7 @@ void stroisePressed()
 {
   if(dist(mouseX,mouseY,3*width/4, (bg.height+height)/2)<width/6)//next
   {
-    if(stroindex<numStroys)
+    if(stroindex<stroyLim)
     {
       ellipse(3*width/4, (bg.height+height)/2, width/3, width/3);
       stroindex++;

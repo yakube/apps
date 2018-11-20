@@ -2,7 +2,7 @@ import processing.sound.*;
 import android.os.Environment;
 
 PImage bg,sg;
-int mx,my,wid,stroindex,selctedRow,dpment;
+int mx,my,wid,stroindex,selctedRow,dpment,stroyLim,fadeFrames=0;
 String macroAddress,macroAddress2,basePath,timeTemp;
 ArrayList<Obstruct> obs;
 ArrayList<ColorMap> cMaps;
@@ -15,12 +15,11 @@ SoundFile song;
 Table obsTab, movesTab,entTab,spawnTab,fluvs,fluse;
 Entity thePlayer,theEnemy,pComba,eComba;
 
-int numIcons=10;
-int numEnt=8;
+int numIcons=18;
+int numEnt=11;
 int numSongs=7;
 int numSounds=0;
-int numStroys=4;
-String sceneDraw="start";
+String sceneDraw="start",sceneReturn;
 void setup()
 {
   cMaps=new ArrayList<ColorMap>();
@@ -75,7 +74,7 @@ void setup()
   {
     music.add(new SoundFile(this,"music/"+i+".wav"));
   }
-  //for(int i=0; i<numStroys; i++)
+  //for(int i=0; i<stroyLim; i++)
   //{
     //stroys.add(loadImage("stroys/"+i+".png"));//consider reworking if startup takes too long to load
   //}
@@ -103,6 +102,8 @@ void draw()
     stroyDraw();
   else if(sceneDraw=="load")
     loadDraw();
+  else if(sceneDraw=="pause")
+    pauseDraw();
 }
 void newGameSetup()//initialization in the case of new game
 {
@@ -112,6 +113,7 @@ void newGameSetup()//initialization in the case of new game
   mx=fluvs.getRow(0).getInt("mx");
   my=fluvs.getRow(0).getInt("my");
   wid=fluvs.getRow(0).getInt("wid");
+  stroindex=0;
   saveStuff();
   for(Entity cur:currentEnts)
   {
@@ -181,6 +183,10 @@ void saveStuff()
   {
     if(fluvs.getRowCount()>0&&fluvs.getRowCount()<200)
       fluvs.addRow();
+    else if(fluvs.getRowCount()>=200)
+    {
+      fluvs.removeRow(199);
+    }
     for(int i=fluvs.getRowCount()-1; i>0; i--)
     {
       fluvs.setRow(i,fluvs.getRow(i-1));
