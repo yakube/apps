@@ -7,3 +7,6 @@ id,name,allegiance,allId,mhp,map,pa,pa2,pa3,pa4
 5,Demon Soldier,dmn,1,100,100,0,1,2,3
 6,Demon Corporal,dmn,1,100,100,0,1,2,3
 7,Demon Commander,dmn,1,100,100,0,1,2,3
+8,Ishmael,aly,2,100,100,0,1,2,3
+9,Isaac,aly,2,100,100,0,1,2,3
+10,Zimran,aly,2,100,100,0,1,2,3
